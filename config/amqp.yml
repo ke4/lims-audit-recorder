@@ -1,0 +1,22 @@
+defaults: &defaults
+  url: "amqp://localhost:5672"
+  exchange_name: "S2.exchange"
+  durable: true
+
+test:
+  <<: *defaults
+  exchange_name: "S2.exchange.test"
+  queue_name: "audit_test"
+  durable: false
+  message_persistent: false
+
+development:
+  <<: *defaults
+  exchange_name: "S2.exchange.test"
+  queue_name: "audit_test"
+
+production:
+  <<: *defaults
+  url: "url"
+  exchange_name: "psd.s2"
+  queue_name: "psd.s2.audit"
