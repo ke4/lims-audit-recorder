@@ -3,7 +3,7 @@ source "http://rubygems.org"
 # Specify your gem's dependencies in lims-support-app.gemspec
 gemspec
 
-gem 'lims-busclient', '~>0.2', :git => 'https://github.com/sanger/lims-busclient.git' , :branch => 'master'
+gem 'lims-busclient', '~>0.3', :git => 'https://github.com/sanger/lims-busclient.git' , :branch => 'master'
 
 group :debugger do
   gem 'debugger', :platforms => :mri

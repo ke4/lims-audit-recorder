@@ -2,6 +2,7 @@ defaults: &defaults
   url: "amqp://localhost:5672"
   exchange_name: "S2.exchange"
   durable: true
+  message_timeout: 120
 
 test:
   <<: *defaults
