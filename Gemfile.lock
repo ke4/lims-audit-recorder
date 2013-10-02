@@ -6,10 +6,10 @@ GIT
 
 GIT
   remote: https://github.com/sanger/lims-busclient.git
-  revision: fe61ca90f8343c689febeecea7657c284e51e5df
+  revision: 567ebc8fce362dce64a09f2a07064d11cd026c8d
   branch: master
   specs:
-    lims-busclient (0.3.0)
+    lims-busclient (0.4.0)
       aequitas
       amqp
       facets
@@ -81,7 +81,7 @@ DEPENDENCIES
   debugger-completion
   hashdiff
   lims-auditor-app!
-  lims-busclient (~> 0.3)!
+  lims-busclient (~> 0.4)!
   psd_logger!
   rake (~> 0.9.2)
   rspec (~> 2.8.0)
