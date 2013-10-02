@@ -1,6 +1,4 @@
 require 'lims-busclient'
-require 'rubygems'
-require 'ruby-debug'
 require 'logger'
 
 module Lims
