@@ -17,8 +17,10 @@ module Lims
       # @param [Hash] audit_opts
       def initialize(amqp_settings, audit_opts)
         @queue_name = amqp_settings["queue_name"]
+        @exchange_name = amqp_settings["exchange_name"]
         @audit_file = audit_opts["audit_file"]
         @audit_log_age = audit_opts["audit_log_age"]
+
         consumer_setup(amqp_settings)
         init_audit_logger
         set_queue
@@ -37,7 +39,7 @@ module Lims
         self.add_queue(queue_name) do |metadata, payload|
           log_app.debug("Processing message with routing key: '#{metadata.routing_key}' and payload: #{payload}")
 
-          processing_message(metadata, payload)
+          @audit_log.info(processing_message(metadata, payload))
           metadata.ack
         end
       end
@@ -45,17 +47,17 @@ module Lims
       # Initialize a log file for audit.
       # The rotation of the log file can be set in the config file.
       def init_audit_logger
-        unless File.exists?(audit_file)
-          dir = File.dirname(audit_file)
+        unless File.exists?(@audit_file)
+          dir = File.dirname(@audit_file)
 
           unless File.directory?(dir)
             FileUtils.mkdir_p(dir)
           end
 
-          File.new(audit_file, 'w')
+          File.new(@audit_file, 'w')
         end
 
-        @audit_log = Logger.new(audit_file, @audit_log_age)
+        @audit_log = Logger.new(@audit_file, @audit_log_age)
         @audit_log.level = Logger::INFO
         @audit_log.formatter = proc do |severity, datetime, progname, msg|
           "#{msg}\n"
@@ -66,8 +68,12 @@ module Lims
       # Also adds the routing key and the content-type to the file.
       # Appends the message to the end of the file.
       def processing_message(metadata, payload)
-        @audit_log.info("routing key = #{metadata.routing_key}")
-        @audit_log.info("payload = #{payload}")
+        {
+          "exchange"          => @exchange_name,
+          "routing_key"       => metadata.routing_key,
+          "payload"           => payload,
+          "payload_encoding"  => "string"
+        }
       end
     end
   end
