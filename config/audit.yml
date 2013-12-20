@@ -1,0 +1,9 @@
+defaults: &defaults
+  audit_file: "test/audit.log"
+  audit_log_age: "daily"
+
+test:
+  <<: *defaults
+
+development:
+  <<: *defaults

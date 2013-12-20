@@ -1,0 +1,19 @@
+defaults: &defaults
+  url: "amqp://localhost:5672"
+  exchange_name: "psd.s2"
+  durable: true
+  message_persistent: true
+  message_timeout: 120
+  empty_queue_disconnect_interval: 0
+  prefetch_number: 1
+  queue_name: "psd.s2.audit"
+
+test:
+  <<: *defaults
+  durable: false
+
+development:
+  <<: *defaults
+
+production:
+  <<: *defaults
